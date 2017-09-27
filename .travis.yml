@@ -21,7 +21,7 @@ addons:
           - llvm-3.8
 
 os:
-  -linux
+  - linux
 
   
 before_install:
