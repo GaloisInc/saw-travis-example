@@ -34,6 +34,9 @@ install:
   - if [[ ! -d "$SAW_INSTALL_DIR" ]]; then mkdir -p $SAW_INSTALL_DIR; .travis/install_saw.sh `mktemp -d` $SAW_INSTALL_DIR ; fi
   - if [[ ! -d "$Z3_INSTALL_DIR" ]]; then mkdir -p $Z3_INSTALL_DIR; .travis/install_z3_yices.sh `mktemp -d` $Z3_INSTALL_DIR > /dev/null ; fi
 
+before-script:
+  - export PATH=$SAW_INSTALL_DIR/bin:$Z3_INSTALL_DIR/bin:$PATH
+  
 script:
   - make
   - saw salsa-crucible.saw
