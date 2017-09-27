@@ -1,0 +1,40 @@
+#we need sudo for installs
+sudo: required
+#the modern version, more future proof
+dist: trusty
+#gives us some of the right dependencies
+language: c
+
+#dependencies that will be installed with apt when the machine starts
+addons:
+      apt:
+        packages:
+          - clang-3.8
+          - llvm-3.8
+
+cache:
+    directories:
+        # Cache test dependencies that would normally be re-compiled for every build.
+        # If the SAW version changes, the cache must be cleared on the travis build options,
+        # otherwise the cache will continue to be used, and SAW won't update
+        - test-deps
+
+os:
+  -linux
+
+before_install:
+  # make the cache directory if it doesn't exist
+  - if [[ ! -d test-deps ]]; then mkdir test-deps ; fi
+  # Set the directories to install saw and z3
+  - export SAW_INSTALL_DIR=`pwd`/test-deps/saw
+  - export Z3_INSTALL_DIR=`pwd`/test-deps/z3
+  
+install:
+  # install saw and z3 if they don't exist
+  - if [[ ! -d "$SAW_INSTALL_DIR" ]]; then mkdir -p $SAW_INSTALL_DIR; .travis/install_saw.sh `mktemp -d` $SAW_INSTALL_DIR ; fi
+  - if [[ ! -d "$Z3_INSTALL_DIR" ]]; then mkdir -p $Z3_INSTALL_DIR; .travis/install_z3_yices.sh `mktemp -d` $Z3_INSTALL_DIR > /dev/null ; fi
+
+script:
+  - make
+  - saw salsa-crucible.saw
+  
