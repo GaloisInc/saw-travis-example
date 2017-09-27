@@ -5,11 +5,6 @@ dist: trusty
 #gives us some of the right dependencies
 language: c
 
-#dependencies that will be installed with apt when the machine starts
-addons:
-      apt:
-        packages:
-
 cache:
     directories:
         # Cache test dependencies that would normally be re-compiled for every build.
@@ -17,14 +12,16 @@ cache:
         # otherwise the cache will continue to be used, and SAW won't update
         - test-deps
 
-os:
-  -linux
 
+#dependencies to automatically install with apt
 addons:
     apt:
       packages:
           - clang-3.8
           - llvm-3.8
+
+os:
+  -linux
 
   
 before_install:
