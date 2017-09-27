@@ -9,8 +9,6 @@ language: c
 addons:
       apt:
         packages:
-          - clang-3.8
-          - llvm-3.8
 
 cache:
     directories:
@@ -22,6 +20,13 @@ cache:
 os:
   -linux
 
+addons:
+    apt:
+      packages:
+          - clang-3.8
+          - llvm-3.8
+
+  
 before_install:
   # make the cache directory if it doesn't exist
   - if [[ ! -d test-deps ]]; then mkdir test-deps ; fi
